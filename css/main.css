@@ -135,9 +135,10 @@ html, body {overflow:hidden;}
 .center {text-align:center;}
 
 
+
 .columpading {grid-gap:var(--pads);}
 .grid-padxs {grid-gap:var(--padxs);}
-.columpading--xl {grid-gap:calc(var(--pads) * 2);}
+.columpading--xl {grid-gap:calc(var(--pads) / 2);}
 .col-3 {grid-template-columns:1fr 1fr 1fr;}
 
 .inline-block {display:inline-block;}
