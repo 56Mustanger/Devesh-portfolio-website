@@ -248,6 +248,7 @@ display:flex; justify-content:center; align-items:center;}
 	.ig1 {width: 36vb;height: 10vb;}
 	.gh1 {width: 42vb;}
 	.l1 {width: 40vb;}
+	.text-n {font-size:14vw; font-weight:400; line-height:1.2;}
 
 @media screen and (max-width:1690px) {
 	
