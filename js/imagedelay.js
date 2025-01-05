@@ -5,5 +5,89 @@
 *
 * Modified by Cain
 */
+(function(factory) {
+    if (typeof define === "function" && define.amd) {
+        define(["jquery"], factory);
+    } else if (typeof exports === "object") {
+        module.exports = factory(require("jquery"));
+    } else {
+        factory(jQuery);
+    }
+})(function($) {
+    const pluginName = "waitForImages";
 
-!function(a){"function"==typeof define&&define.amd?define(["jquery"],a):"object"==typeof exports?module.exports=a(require("jquery")):a(jQuery)}(function(a){var b="waitForImages";a.waitForImages={hasImageProperties:["backgroundImage","listStyleImage","borderImage","borderCornerImage","cursor"],hasImageAttributes:["srcset"]},a.expr[":"]["has-src"]=function(b){return a(b).is('img[src][src!=""]')},a.expr[":"].uncached=function(b){return!!a(b).is(":has-src")&&!b.complete},a.fn.waitForImages=function(){var f,g,h,c=0,d=0,e=a.Deferred();if(a.isPlainObject(arguments[0])?(h=arguments[0].waitForAll,g=arguments[0].each,f=arguments[0].finished):1===arguments.length&&"boolean"===a.type(arguments[0])?h=arguments[0]:(f=arguments[0],g=arguments[1],h=arguments[2]),f=f||a.noop,g=g||a.noop,h=!!h,!a.isFunction(f)||!a.isFunction(g))throw new TypeError("An invalid callback was supplied.");return this.each(function(){var i=a(this),j=[],k=a.waitForImages.hasImageProperties||[],l=a.waitForImages.hasImageAttributes||[],m=/url\(\s*(['"]?)(.*?)\1\s*\)/g;h?(i=i.find("*").addBack(),i.not(a("#loftloader-wrapper").find("*").addBack()).each(function(){var b=a(this);b.is("img:has-src")&&!b.is("[srcset]")&&j.push({src:b.attr("src"),element:b[0]}),a.each(k,function(a,c){var e,d=b.css(c);if(!d)return!0;for(;e=m.exec(d);)j.push({src:e[2],element:b[0]})}),a.each(l,function(a,c){var d=b.attr(c);return!d||void j.push({src:b.attr("src"),srcset:b.attr("srcset"),element:b[0]})})})):i.find("img:has-src").each(function(){j.push({src:this.src,element:this})}),c=j.length,d=0,0===c&&(f.call(i[0]),e.resolveWith(i[0])),a.each(j,function(h,j){var k=new Image,l="load."+b+" error."+b;a(k).one(l,function b(h){d++;var k=[d,c,"load"==h.type];if(d<c&&(g.apply(j.element,k),e.notifyWith(j.element,k)),a(this).off(l,b),d==c)return f.call(i[0]),e.resolveWith(i[0]),!1}),j.srcset&&(k.srcset=j.srcset),k.src=j.src})}),{allImgsLength:c,deferred:e.promise()}}});
+    $.waitForImages = {
+        hasImageProperties: ["backgroundImage", "listStyleImage", "borderImage", "borderCornerImage", "cursor"],
+        hasImageAttributes: ["srcset"]
+    };
+
+    $.expr[":"].hasSrc = (elem) => $(elem).is('img[src][src!=""]');
+    $.expr[":"].uncached = (elem) => $(elem).is(":hasSrc") && !elem.complete;
+
+    $.fn.waitForImages = function({ each = $.noop, finished = $.noop, waitForAll = false } = {}) {
+        const deferred = $.Deferred();
+        let allImages = [];
+        let loadedCount = 0;
+
+        const collectImages = (element) => {
+            const $element = $(element);
+            const regex = /url\(\s*(['"]?)(.*?)\1\s*\)/g;
+
+            if ($element.is("img:hasSrc")) {
+                allImages.push({ src: $element.attr("src"), element });
+            }
+
+            $.waitForImages.hasImageProperties.forEach((property) => {
+                const cssValue = $element.css(property);
+                if (!cssValue) return;
+
+                let match;
+                while ((match = regex.exec(cssValue))) {
+                    allImages.push({ src: match[2], element });
+                }
+            });
+
+            $.waitForImages.hasImageAttributes.forEach((attr) => {
+                const attrValue = $element.attr(attr);
+                if (attrValue) {
+                    allImages.push({
+                        src: $element.attr("src"),
+                        srcset: attrValue,
+                        element
+                    });
+                }
+            });
+        };
+
+        const handleImageLoad = ({ src, element }, index, total) => {
+            loadedCount++;
+            each.call(element, loadedCount, total, true);
+            if (loadedCount === total) {
+                finished.call(this);
+                deferred.resolveWith(this);
+            }
+        };
+
+        this.each(function() {
+            const $this = $(this);
+            const elements = waitForAll ? $this.find("*").addBack() : $this.find("img:hasSrc");
+
+            elements.each((_, elem) => collectImages(elem));
+        });
+
+        const totalImages = allImages.length;
+
+        if (totalImages === 0) {
+            finished.call(this);
+            deferred.resolveWith(this);
+        } else {
+            allImages.forEach(({ src, element }) => {
+                const img = new Image();
+                img.onload = img.onerror = () => handleImageLoad({ src, element }, loadedCount, totalImages);
+                img.src = src;
+            });
+        }
+
+        return { allImgsLength: totalImages, deferred: deferred.promise() };
+    };
+});
