@@ -1,0 +1,194 @@
+/* Optimized CSS animations to replace GSAP */
+/* Performance-focused animations for smooth loading */
+
+/* Simple working animations for Devesh's portfolio */
+
+/* Main title animation */
+.font-title[data-splitting] {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.font-title[data-splitting].animate-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#section-8 {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+#section-8.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Character-level animations for main title */
+#section-8[data-splitting] .char {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px) rotateY(-90deg);
+    transition: opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+#section-8[data-splitting].animate-in .char {
+    opacity: 1;
+    transform: translateY(0) rotateY(0);
+}
+
+.char {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.visible .char {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.visible .char:nth-child(1) { transition-delay: 0.1s; }
+.visible .char:nth-child(2) { transition-delay: 0.15s; }
+.visible .char:nth-child(3) { transition-delay: 0.2s; }
+.visible .char:nth-child(4) { transition-delay: 0.25s; }
+.visible .char:nth-child(5) { transition-delay: 0.3s; }
+.visible .char:nth-child(6) { transition-delay: 0.35s; }
+.visible .char:nth-child(7) { transition-delay: 0.4s; }
+.visible .char:nth-child(8) { transition-delay: 0.45s; }
+.visible .char:nth-child(9) { transition-delay: 0.5s; }
+.visible .char:nth-child(10) { transition-delay: 0.55s; }
+.visible .char:nth-child(11) { transition-delay: 0.6s; }
+.visible .char:nth-child(12) { transition-delay: 0.65s; }
+.visible .char:nth-child(13) { transition-delay: 0.7s; }
+.visible .char:nth-child(14) { transition-delay: 0.75s; }
+.visible .char:nth-child(15) { transition-delay: 0.8s; }
+
+#section-8[data-splitting].animate-in .char:nth-child(1) { transition-delay: 0.1s; }
+#section-8[data-splitting].animate-in .char:nth-child(2) { transition-delay: 0.15s; }
+#section-8[data-splitting].animate-in .char:nth-child(3) { transition-delay: 0.2s; }
+#section-8[data-splitting].animate-in .char:nth-child(4) { transition-delay: 0.25s; }
+#section-8[data-splitting].animate-in .char:nth-child(5) { transition-delay: 0.3s; }
+#section-8[data-splitting].animate-in .char:nth-child(6) { transition-delay: 0.35s; }
+#section-8[data-splitting].animate-in .char:nth-child(7) { transition-delay: 0.4s; }
+#section-8[data-splitting].animate-in .char:nth-child(8) { transition-delay: 0.45s; }
+#section-8[data-splitting].animate-in .char:nth-child(9) { transition-delay: 0.5s; }
+#section-8[data-splitting].animate-in .char:nth-child(10) { transition-delay: 0.55s; }
+#section-8[data-splitting].animate-in .char:nth-child(11) { transition-delay: 0.6s; }
+#section-8[data-splitting].animate-in .char:nth-child(12) { transition-delay: 0.65s; }
+#section-8[data-splitting].animate-in .char:nth-child(13) { transition-delay: 0.7s; }
+#section-8[data-splitting].animate-in .char:nth-child(14) { transition-delay: 0.75s; }
+#section-8[data-splitting].animate-in .char:nth-child(15) { transition-delay: 0.8s; }
+
+/* Word animations for other titles */
+[data-effect-bounce].animate-in .word {
+    animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+[data-effect-bounce].animate-in .word:nth-child(1) { animation-delay: 0.1s; }
+[data-effect-bounce].animate-in .word:nth-child(2) { animation-delay: 0.2s; }
+[data-effect-bounce].animate-in .word:nth-child(3) { animation-delay: 0.3s; }
+
+[data-effect-blur].animate-in .char {
+    animation: blurIn 0.6s ease-out forwards;
+}
+
+[data-effect-blur].animate-in .char:nth-child(1) { animation-delay: 0.05s; }
+[data-effect-blur].animate-in .char:nth-child(2) { animation-delay: 0.1s; }
+[data-effect-blur].animate-in .char:nth-child(3) { animation-delay: 0.15s; }
+[data-effect-blur].animate-in .char:nth-child(4) { animation-delay: 0.2s; }
+[data-effect-blur].animate-in .char:nth-child(5) { animation-delay: 0.25s; }
+[data-effect-blur].animate-in .char:nth-child(6) { animation-delay: 0.3s; }
+[data-effect-blur].animate-in .char:nth-child(7) { animation-delay: 0.35s; }
+[data-effect-blur].animate-in .char:nth-child(8) { animation-delay: 0.4s; }
+
+/* Keyframes */
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3) translateY(30px);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05) translateY(-10px);
+    }
+    70% {
+        transform: scale(0.9) translateY(0);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes blurIn {
+    0% {
+        opacity: 0;
+        filter: blur(10px);
+        transform: translateY(20px) scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Smooth background transitions */
+body {
+    transition: background-color 0.5s ease-out, color 0.5s ease-out;
+}
+
+/* Mobile optimizations */
+@media (max-width: 850px) {
+    .font-title[data-splitting] {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+    
+    #section-8[data-splitting] .char {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+    
+    #section-8 {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+    
+    .char {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+    
+    [data-effect-bounce].animate-in .word,
+    [data-effect-blur].animate-in .char {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    .font-title[data-splitting],
+    #section-8[data-splitting] .char,
+    #section-8,
+    .char,
+    [data-effect-bounce] .word,
+    [data-effect-blur] .char {
+        animation: none !important;
+        transition: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}

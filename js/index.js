@@ -88,89 +88,66 @@ if (window.matchMedia("(min-width:850px)").matches) {
 		
 	
 		
+		// Simplified animations for better performance
 		const effexts28Titles = [...document.querySelectorAll('.font-title[data-splitting][data-effect-blur]')];
 		const effexts29Titles = [...document.querySelectorAll('.font-title[data-splitting][data-effect-bounce]')];
 		
-
 		effexts29Titles.forEach(title => {
-        
         const words = title.querySelectorAll('.word');
         
-			for (const [pos,word] of words.entries()) {
-				
+			words.forEach((word, index) => {
 				const chars = word.querySelectorAll('.char');
 				
+				// Simple staggered fade-in
 				gsap.fromTo(chars, {
-					'will-change': 'transform', 
-					transformOrigin: `${pos%2 ? 0 : 100}% ${pos%2 ? 100 : 0}%`,
-					scale: 0
+					opacity: 0,
+					y: 20
 				}, 
 				{
-					ease: 'power4',
-					scale: 1,
-					stagger:  {
-						each: 0.03,
-						from: pos%2 ? 'end' : 'start'
-					},
+					opacity: 1,
+					y: 0,
+					duration: 0.6,
+					stagger: 0.05,
+					ease: 'power2.out',
 					scrollTrigger: {
 						trigger: word,
 						scroller: pageContainer,
 						start: 'top bottom-=10%',
 						end: 'top top',
-						scrub: true,
+						scrub: false, // Changed to false for better performance
 					}
 				});
-			}
-			
+			});
 		});
 		
 		effexts28Titles.forEach(title => {
-        
         const words = title.querySelectorAll('.word');
         
-			for (const word of words) {
-
+			words.forEach(word => {
 				const chars = word.querySelectorAll('.char');
-				const charsTotal = chars.length;
 				
+				// Simple blur to focus animation
 				gsap.fromTo(chars, {
-					'will-change': 'transform, filter', 
-					transformOrigin: '50% 100%',
-					scale: position => {
-						const factor = position < Math.ceil(charsTotal/2) ? position : Math.ceil(charsTotal/2) - Math.abs(Math.floor(charsTotal/2) - position) - 1;
-						return gsap.utils.mapRange(0, Math.ceil(charsTotal/2), 0.5, 2.1, factor);
-					},
-					y: position => {
-						const factor = position < Math.ceil(charsTotal/2) ? position : Math.ceil(charsTotal/2) - Math.abs(Math.floor(charsTotal/2) - position) - 1;
-						return gsap.utils.mapRange(0, Math.ceil(charsTotal/2), 0, 60, factor);
-					},
-					rotation: position => {
-						const factor = position < Math.ceil(charsTotal/2) ? position : Math.ceil(charsTotal/2) - Math.abs(Math.floor(charsTotal/2) - position) - 1;
-						return position < charsTotal/2 ? gsap.utils.mapRange(0, Math.ceil(charsTotal/2), -4, 0, factor) : gsap.utils.mapRange(0, Math.ceil(charsTotal/2), 0, 4, factor);
-					},
-					filter: 'blur(12px) opacity(0)',
+					opacity: 0,
+					filter: 'blur(5px)',
+					y: 15
 				}, 
 				{
-					ease: 'power2.inOut',
+					opacity: 1,
+					filter: 'blur(0px)',
 					y: 0,
-					rotation: 0,
-					scale: 1,
-					filter: 'blur(0px) opacity(1)',
+					duration: 0.8,
+					stagger: 0.03,
+					ease: 'power2.out',
 					scrollTrigger: {
 						scroller: pageContainer,
 						trigger: word,
-						start: 'top bottom+=50%',
-						end: 'top top+=30%',
-						scrub: true,
-					},
-					stagger: {
-						amount: 0.15,
-						from: 'center'
+						start: 'top bottom+=20%',
+						end: 'top top+=20%',
+						scrub: false, // Changed to false for better performance
 					}
 				});
-
-			}
-
+			});
 		});
 		
 		
